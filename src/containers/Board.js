@@ -1,19 +1,24 @@
 import { connect } from 'react-redux'
-import { setAllImages } from '../actions'
+import { setAllImages, flipCard, toggleNextPlayer, changePlayer, addPoint, resetGame } from '../actions'
 import Board from '../components/Board'
 
 
 const mapStateToProps = state => {
-  return {
-    cards: state.cards
-  }
+  return state
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setAllImages: images => {
       dispatch(setAllImages(images))
-    }
+    },
+    flipCard: index => {
+      dispatch(flipCard(index))
+    },
+    toggleNextPlayer: () => dispatch(toggleNextPlayer()),
+    changePlayer: () => dispatch(changePlayer()),
+    addPoint: () => dispatch(addPoint()),
+    resetGame: (result) => dispatch(resetGame(result)),
   }
 }
 

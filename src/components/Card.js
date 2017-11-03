@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 const emptyCardUrl = "/img/playing-card-568200_960_720.jpg";
+
+const mapStateToProps = state => state;
 
 class Card extends Component {
   constructor(props){
@@ -8,7 +11,9 @@ class Card extends Component {
     this.flipCard = this.flipCard.bind(this)
   }
   flipCard(){
-    this.props.flipCard(this.props.index)
+    if(!this.props.nextPlayerEnabled || this.props.result) {
+      this.props.flipCard(this.props.index)
+    }
   }
   render() {
     return (
@@ -19,4 +24,4 @@ class Card extends Component {
   }
 }
 
-export default Card;
+export default connect(mapStateToProps)(Card);
