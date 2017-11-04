@@ -33,11 +33,9 @@ class Board extends Component {
     } else {
       const lastFlippedCard = this.props.cards[this.props.flippedCards[this.props.flippedCards.length - 1]]
       if (lastFlippedCard.thumbUrl === this.props.cards[index].thumbUrl) {
-        console.log('a')
         this.props.flipCard(index);
         this.props.addPoint();
       } else {
-        console.log('b')
         this.props.flipCard(index);
         this.props.toggleNextPlayer();
       }
