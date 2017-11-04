@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setAllImages, flipCard, toggleNextPlayer, changePlayer, addPoint, resetGame } from '../actions'
+import { setAllImages, flipCard, toggleNextPlayer, changePlayer, addPoint, resetGame } from '../redux/actions'
 import Board from '../components/Board'
 
 

@@ -1,0 +1,87 @@
+html, body, #root {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: "Open Sans Condensed",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  background: #2c3e50;
+  color: white;
+}
+
+#root {
+  display: flex;
+  flex-direction: column
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.header, .footer {
+  text-align: center;
+}
+.header span {
+  font-size: 3em;
+}
+.concentration-board {
+  flex: 1;
+  border: 10px solid brown;
+  border-radius: 20px;
+  padding: 30px;
+  background: green;
+  transition: all 0.4s;
+  margin: 0px 10px;
+  text-align: center;
+}
+
+.btn {
+  background: #ffffff;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  width: 100px;
+  text-align: center;
+  font-family: "Open Sans Condensed";
+  margin-left: 30px;
+}
+
+.board-header {
+  display: flex;
+  padding: 10px;
+}
+.board-actions{
+  display: flex;
+  flex: 1 1;
+  align-items: center;
+  justify-content: left;
+}
+
+.concentration-card {
+  width: 120px;
+  height: 70px;
+  overflow: hidden;
+  border: 1px solid black;
+  padding: 9px;
+  border-radius: 9px;
+  margin: 20px;
+  display: inline-block;
+  background: white;
+}
+
+.concentration-card.transition {
+  transition: transform 0.4s;
+}
+
+.concentration-card img {
+  width: 120px;
+  height: 70px;
+  border-radius: 4px;
+}
+
+.footer {
+  height: 50px;
+  line-height: 50px;
+}
+
+

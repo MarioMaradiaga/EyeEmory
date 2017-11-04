@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import Board from './containers/Board'
-import './App.css';
+import './css/App.css';
 
 
 class App extends Component {
   render() {
-    return (
-      <div className="eye-emory">
-        <Board />
-      </div>
-    );
+    return [
+        <div className="header">
+          <span>Concentration</span>
+        </div>,
+        <div className="body">
+          <Board />
+        </div>, 
+        <div className="footer">
+          By Mario Maradiaga
+        </div>
+
+    ];
   }
 }
 

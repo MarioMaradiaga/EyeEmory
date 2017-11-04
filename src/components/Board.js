@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import Card from '../components/Card';
-
-const fakeCards = [{
-  photoUrl: "/img/pexels-photo-106344.jpeg"
-}, {
-  photoUrl: "/img/pexels-photo-288477.jpeg"
-}]
-
+import 'whatwg-fetch';
 const initialState = {
   result: "",
 }
@@ -23,14 +17,12 @@ class Board extends Component {
     this.onPlayAgain = this.onPlayAgain.bind(this);
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.props.setAllImages(fakeCards)
-    }, 2000);
+    this.requestImages();
   }
 
-  componentWillReceiveProps(props){
-    if(props.remainingCards === 0) {
-      this.determineResult();
+  componentWillReceiveProps(props) {
+    if (props.remainingCards === 0) {
+      this.determineResult(props.points);
     }
   }
 
@@ -53,12 +45,23 @@ class Board extends Component {
   onNextTurn() {
     this.props.changePlayer();
   }
-  determineResult(){
+
+  requestImages() {
+    const promise = fetch('https://api.eyeem.com/v2/photos/popular?client_id=9iNUTAc4FCsRj5Co6vJgzVySHxuJtL3Y&limit=10', {
+      method: 'GET'
+    }).then((result) => {
+      return result.json()
+    }).then((parsedResult) => {
+      this.props.setAllImages(parsedResult.photos.items);
+    })
+  }
+
+  determineResult(points) {
     let result;
-    if(this.props.points.foo === this.props.points.bar) {
+    if (points.foo === points.bar) {
       result = 'Draw!'
     } else {
-      const winner = this.props.points.foo > this.props.points.bar ? 'foo' : 'bar';
+      const winner = points.foo > points.bar ? 'foo' : 'bar';
       result = `Winner: ${winner}!`;
     }
     this.setState({
@@ -66,35 +69,58 @@ class Board extends Component {
     })
   }
 
-  onPlayAgain(){
+  onPlayAgain() {
     this.setState({
       ...initialState
     })
     this.props.resetGame();
-    this.props.setAllImages(fakeCards);
   }
   render() {
     return ([
       <div className="board-header">
-        {!this.state.result ? [
-          <h2>Current player: {this.props.player}</h2>,
-          <h3>Points: {this.props.points[this.props.player]}</h3>
-        ] : [
-          <h2>{this.state.result}</h2>,
-          <button onClick={this.onPlayAgain}>
+        <div className="board-info">
+          {!this.state.result ? [
+            <h2>Current player: {this.props.player}</h2>
+          ] : [
+              <h2>{this.state.result}</h2>
+            ]}
+            <table>
+              <thead>
+                <tr>
+                  <th>foo</th>
+                  <th>bar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>{this.props.points.foo}</th>
+                  <th>{this.props.points.bar}</th>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div className="board-actions">
+          {this.props.nextPlayerEnabled ? (
+            <button className="btn" disabled={!this.props.nextPlayerEnabled} onClick={this.onNextTurn}>
+              Next Player: {this.props.player === 'foo' ? 'bar' : 'foo'}!
+          </button>
+          ) : null}
+          {this.state.result ? (<button className="btn" onClick={this.onPlayAgain}>
             Play Again!
-          </button>
-        ]}
+          </button>) : null}
 
-        {this.props.nextPlayerEnabled ? (
-          <button disabled={!this.props.nextPlayerEnabled} onClick={this.onNextTurn}>
-            Next Player!
-          </button>
-        ): null}
-        
+        </div>
       </div>,
-      <div className="card-board">
-        {this.props.cards.map((card, index) => <Card result={this.state.result} flipCard={this.onFlipCard} index={index} card={card} />)}
+      <div ref={(ref) => { this.parentDiv = ref }} className="concentration-board">
+        {this.props.cards.map((card, index) =>
+          <Card
+            index={index}
+            card={card}
+            parentDimensions={[this.parentDiv.clientWidth, this.parentDiv.clientHeight]}
+            parentOffset={[this.parentDiv.offsetLeft, this.parentDiv.offsetTop]}
+            result={this.state.result}
+            flipCard={this.onFlipCard}
+          />)}
       </div>
     ]
     );
