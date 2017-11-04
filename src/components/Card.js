@@ -39,9 +39,10 @@ class Card extends Component {
     }
   }
   render() {
+    const src = this.props.card.isVisible ? this.props.card.thumbUrl : emptyCardUrl;
     return (
       <div ref={(ref) => {this.cardDiv = ref }} className={`concentration-card ${this.state.className}`} style={this.state.style} onClick={this.flipCard}>
-        <img src={this.props.card.isVisible ? this.props.card.thumbUrl : emptyCardUrl} />
+        <img alt={src} src={src} />
       </div>
     );
   }

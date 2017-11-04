@@ -6,13 +6,13 @@ import './css/App.css';
 class App extends Component {
   render() {
     return [
-        <div className="header">
+        <div key="header" className="header">
           <span>Concentration</span>
         </div>,
-        <div className="body">
+        <div key="body" className="body">
           <Board />
         </div>, 
-        <div className="footer">
+        <div key="footer" className="footer">
           By Mario Maradiaga
         </div>
 

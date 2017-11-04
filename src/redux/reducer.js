@@ -23,8 +23,8 @@ const setImages = (images) => {
     allCards.push(newCard, { ...newCard })
   });
   return {
-    images: images.map(image => ({thumbUrl: image.thumbUrl})),
-    cards: allCards,
+    images: images.map(image => ({ thumbUrl: image.thumbUrl })),
+    cards: _.shuffle(allCards),
     remainingCards: images.length * 2
   }
 }
@@ -94,8 +94,9 @@ const reducer = (state = initialState, action) => {
         ...initialState,
         ...setImages(state.images)
       }
+    default:
+      return state;
   }
-  return state;
 }
 
 export default reducer;

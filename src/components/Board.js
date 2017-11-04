@@ -32,10 +32,12 @@ class Board extends Component {
       this.props.flipCard(index);
     } else {
       const lastFlippedCard = this.props.cards[this.props.flippedCards[this.props.flippedCards.length - 1]]
-      if (lastFlippedCard.photoUrl === this.props.cards[index].photoUrl) {
+      if (lastFlippedCard.thumbUrl === this.props.cards[index].thumbUrl) {
+        console.log('a')
         this.props.flipCard(index);
         this.props.addPoint();
       } else {
+        console.log('b')
         this.props.flipCard(index);
         this.props.toggleNextPlayer();
       }
@@ -47,7 +49,7 @@ class Board extends Component {
   }
 
   requestImages() {
-    const promise = fetch('https://api.eyeem.com/v2/photos/popular?client_id=9iNUTAc4FCsRj5Co6vJgzVySHxuJtL3Y&limit=10', {
+    fetch('https://api.eyeem.com/v2/photos/popular?client_id=9iNUTAc4FCsRj5Co6vJgzVySHxuJtL3Y&limit=10', {
       method: 'GET'
     }).then((result) => {
       return result.json()
@@ -77,27 +79,23 @@ class Board extends Component {
   }
   render() {
     return ([
-      <div className="board-header">
+      <div key="board-header" className="board-header">
         <div className="board-info">
-          {!this.state.result ? [
-            <h2>Current player: {this.props.player}</h2>
-          ] : [
-              <h2>{this.state.result}</h2>
-            ]}
-            <table>
-              <thead>
-                <tr>
-                  <th>foo</th>
-                  <th>bar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>{this.props.points.foo}</th>
-                  <th>{this.props.points.bar}</th>
-                </tr>
-              </tbody>
-            </table>
+          <h2>{!this.state.result ? 'Current player: ' + this.props.player : this.state.result}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>foo</th>
+                <th>bar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>{this.props.points.foo}</th>
+                <th>{this.props.points.bar}</th>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="board-actions">
           {this.props.nextPlayerEnabled ? (
@@ -111,9 +109,10 @@ class Board extends Component {
 
         </div>
       </div>,
-      <div ref={(ref) => { this.parentDiv = ref }} className="concentration-board">
+      <div key="concentration-board" ref={(ref) => { this.parentDiv = ref }} className="concentration-board">
         {this.props.cards.map((card, index) =>
           <Card
+            key={index}
             index={index}
             card={card}
             parentDimensions={[this.parentDiv.clientWidth, this.parentDiv.clientHeight]}
